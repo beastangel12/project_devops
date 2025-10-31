@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./Chatbot-UI
+      dockerfile: Dockerfile
+    image: angelbista/chatbot-ui:staging
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
