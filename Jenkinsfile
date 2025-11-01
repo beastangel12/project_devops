@@ -1,16 +1,20 @@
-cat > jenkins/Jenkinsfile <<'EOF'
 pipeline {
   agent any
   stages {
     stage('Checkout') {
-      steps { checkout scm }
+      steps {
+        checkout scm
+      }
     }
+
     stage('Build Docker Image') {
       when { branch 'staging' }
       steps {
+        // build image using Dockerfile inside Chatbot-UI folder
         sh 'docker build -t angelbista/chatbot-ui:staging -f Chatbot-UI/Dockerfile Chatbot-UI'
       }
     }
+
     stage('Push to Docker Hub') {
       when { branch 'staging' }
       steps {
@@ -20,6 +24,7 @@ pipeline {
         }
       }
     }
+
     stage('Optional: Deploy to K8s') {
       when { branch 'staging' }
       steps {
@@ -29,4 +34,3 @@ pipeline {
     }
   }
 }
-EOF
